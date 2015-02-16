@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<add>
+    <doc>
+        <field name="id">test/nested_list_to_solr_xml_test.xml</field>
+        <field name="year">2015</field>
+        <field name="month">2</field>
+        <field name="day">15</field>
+        <field name="&lt;&gt;&amp;&apos;&quot;">&lt;&gt;&amp;&apos;&quot;</field>
+    </doc>
+</add>

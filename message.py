@@ -1,36 +1,34 @@
 #!/usr/bin/env python3
 
 
-#---------Class implementation section---------#
-
-
 class Message:
 
     def __init__(self, identifier):
-        self.identifier = identifier
-        self.content = ""
+        self.content_list = [["id", identifier]]
 
-    @staticmethod
-    def from_file(file_name):
-        with open(file_name) as archive:
-            message = Message(file_name)
-            for line in archive:
-                message.content = message.content + line
-        return message
+    @property
+    def identifier(self):
+        return self.content_list[0][1]
 
+    @identifier.setter
+    def identifier(self, identifier):
+        self.content_list[0][1] = identifier
 
-#---------Unit testing section---------#
+    def add_field(self, field, value):
+        self.content_list.append([field, value])
 
+    def field(self, field):
+        for item in self.content_list:
+            if (item[0] == field):
+                return item[1]
+        return None
 
-class MessageTest:
+    def set_field(self, field, value):
+        for item in self.content_list:
+            if (item[0] == field):
+                item[1] = value
 
-    @staticmethod
-    def from_file_test():
-        file_name = "49960"
-        message = Message.from_file(file_name);
-        for k in message.__dict__:
-            print("--------" + k + "--------\n\n" + message.__dict__[k])
-
-
-if __name__ == "__main__":
-    MessageTest.from_file_test()
+    def append_field(self, field, value):
+        for item in self.content_list:
+            if (item[0] == field):
+                item[1] += value
