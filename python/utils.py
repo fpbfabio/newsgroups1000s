@@ -29,6 +29,21 @@ class Utils:
         return new_string
 
     @staticmethod
+    def extract_file_parent_folder(path):
+        name = path
+        for i in range(len(path) - 1, -1, -1):
+            if (path[i] == LINUX_PATH_SEPARATOR):
+                most_right_slash_index = i
+                break
+        second_most_right_slash_index = -1
+        for i in range(most_right_slash_index - 1, -1, -1):
+            if (path[i] == LINUX_PATH_SEPARATOR):
+                second_most_right_slash_index = i
+                break
+        parent_folder_name = path[second_most_right_slash_index + 1:most_right_slash_index]
+        return parent_folder_name
+
+    @staticmethod
     def extract_file_name(path):
         name = path
         for i in range(len(path) - 1, -1, -1):
@@ -46,3 +61,21 @@ class Utils:
         if (BACKUP_SYMBOL in path):
             return True
         return False
+
+    @staticmethod
+    def validate_field_name(string):
+        has_no_blank_space = not (BLANK_SPACE in string)
+        is_static_field = string in SOLR_SCHEMA_STATIC_FIELD_NAMES
+        is_dynamic_field = False
+        for item in SOLR_SCHEMA_DYNAMIC_FIELDS:
+            if item in string:
+                is_dynamic_field = True
+        return has_no_blank_space and (is_static_field or is_dynamic_field)
+
+    @staticmethod
+    def is_integer(s):
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False

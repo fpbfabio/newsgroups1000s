@@ -31,7 +31,13 @@ class Message:
             if (inner_list[MESSAGE_FIELD_NAME_INDEX] == field):
                 inner_list[MESSAGE_FIELD_VALUE_INDEX] = value
 
-    def append_field(self, field, value):
+    def append_field(self, field_name, field_value):
         for inner_list in self.content_list:
-            if (inner_list[MESSAGE_FIELD_NAME_INDEX] == field):
-                inner_list[MESSAGE_FIELD_VALUE_INDEX] += value
+            if (inner_list[MESSAGE_FIELD_NAME_INDEX] == field_name):
+                inner_list[MESSAGE_FIELD_VALUE_INDEX] += field_value
+
+    def has_field(self, field_name):
+        for inner_list in self.content_list:
+            if (inner_list[MESSAGE_FIELD_NAME_INDEX] == field_name):
+                return True
+        return False
