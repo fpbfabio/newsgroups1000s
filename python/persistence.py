@@ -16,10 +16,7 @@ class Persistence:
             archive.write(TAB_SPACE + SOLR_XML_DOCUMENT_OPEN_TAG + EOL)
             for inner_list in message.content_list:
                 field_name = inner_list[MESSAGE_FIELD_NAME_INDEX]
-                field_value = inner_list[MESSAGE_FIELD_VALUE_INDEX]
-                for char in XML_CHARS_TO_ESCAPE_LIST:
-                    field_name = Utils.string_replace(char, XML_ESCAPE_DICTIONARY[char], field_name)
-                    field_value = Utils.string_replace(char, XML_ESCAPE_DICTIONARY[char], field_value)
+                field_value = inner_list[MESSAGE_FIELD_VALUE_INDEX]                    
                 field_open_tag = Utils.string_replace(REPLACE_MASK, field_name, SOLR_XML_FIELD_OPEN_TAG)
                 archive.write(2 * TAB_SPACE + field_open_tag + CDATA_OPEN_TAG + field_value + CDATA_CLOSE_TAG + SOLR_XML_FIELD_CLOSE_TAG + EOL)
             archive.write(TAB_SPACE + SOLR_XML_DOCUMENT_CLOSE_TAG + EOL)
@@ -33,19 +30,19 @@ class Persistence:
             with open(path, READ_MODE) as archive:
                 file_name = Utils.extract_file_name(path)
                 message = Message(file_name)
-                all_fields_read_flag = False
-                size = 0
+                message.add_field(MESSAGE_TEXT_FIELD_NAME, EMPTY_STRING)
                 for line in archive:
                     separator_index = Utils.string_find(NEWSGROUPS_CORPORA_FIELD_SEPARATOR, line)
-                    if (not all_fields_read_flag and (separator_index is not None) and (BLANK_SPACE not in line[0:separator_index])):
-                        field_name = line[0:separator_index]
-                        field_value = line[separator_index + 1:].lstrip().rstrip(EOL)
-                        message.add_field(field_name, field_value)
+                    if (separator_index is not None and BLANK_SPACE not in line[0:separator_index]):
+                        match_dynamic_field = False
+                        for string in SOLR_SCHEMA_DYNAMIC_FIELDS:
+                            if (string in line[0:separator_index]):
+                                match_dynamic_field = True
+                        if (line[0:separator_index] in SOLR_SCHEMA_FIELD_NAMES or match_dynamic_field):
+                            field_name = line[0:separator_index]
+                            field_value = line[separator_index + 1:].lstrip().rstrip(EOL)
+                            message.add_field(field_name, field_value)
                     else:
-                        if (not all_fields_read_flag):
-                            message.add_field(MESSAGE_TEXT_FIELD_NAME, EMPTY_STRING)
-                            size = len(message.content_list)
-                            all_fields_read_flag = True
                         message.append_field(MESSAGE_TEXT_FIELD_NAME, line)
         except UnicodeDecodeError:
             error_message = Utils.string_replace(REPLACE_MASK, str(path), DECODE_ERROR_LOG)
