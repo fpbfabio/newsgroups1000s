@@ -2,7 +2,7 @@
 
 <add>
     <doc>
-        <field name="id">test/nested_list_to_solr_xml_test.xml</field>
+        <field name="id">message_list_to_solr_xml_test</field>
         <field name="year">2015</field>
         <field name="month">2</field>
         <field name="day">15</field>

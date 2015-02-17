@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
 
+import sys
+
+sys.path.insert(0, "../python/")
+
 from utils import Utils
 from message import Message
 
@@ -31,33 +35,8 @@ class UtilsTest:
             if (Utils.extract_file_name(item) != "jkl"):
                 print("-----ERROR-----Utils.extract_dir------" + Utils.extract_file_name(item))
 
-    @staticmethod
-    def message_to_solr_xml_test():
-        file_name = "test/nested_list_to_solr_xml_test.xml"
-        message = Message(file_name)
-        message.add_field("year", "2015")
-        message.add_field("month", "2")
-        message.add_field("day", "15")
-        message.add_field("<>&'\"", "<>&'\"")
-        Utils.message_to_solr_xml(message, file_name)
-        print("Warning: need to read file: " + file_name )
-
-    @staticmethod
-    def get_message_from_file_test():
-        file_name = "test/49960"
-        message = Utils.get_message_from_file(file_name);
-        with open("test/get_message_from_file_test.txt", "w") as archive:
-            for item in message.content_list:
-                archive.write("\n\n--------" + item[0] + "--------\n\n" + item[1])
-        print("Warning: need to read file: " + "test/get_message_from_file_test.txt")
-        #for item in message.content_list:
-        #    print("--------" + item[0] + "--------\n\n" + item[1])
-        return message
-
 
 if __name__ == "__main__":
     UtilsTest.string_find_test()
     UtilsTest.string_replace_test()
     UtilsTest.extract_dir_test()
-    UtilsTest.message_to_solr_xml_test()
-    UtilsTest.get_message_from_file_test()

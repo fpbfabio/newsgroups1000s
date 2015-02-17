@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import sys
+
+sys.path.insert(0, "../python/")
 
 from message import Message
 
@@ -37,6 +40,7 @@ class MessageTest:
         message.append_field("Test", "efgh")
         if (message.field("Test") != "abcdefgh"):
             print("-----ERROR-----append_field_test")
+
 
 if __name__ == "__main__":
     MessageTest.add_field_test()
