@@ -1,1 +1,135 @@
-../newsgroups/conf/schema.xml
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="newsgroups" version="1.5">
+
+    <field name="_version_" type="long" indexed="true" stored="true"/>
+    <field name="id" type="string" indexed="true" stored="true" required="true"/>
+    <field name="Path" type="string" indexed="false" stored="true" required="true"/>
+    <field name="From" type="string" indexed="false" stored="true" required="true"/>
+    <field name="Newsgroups" type="text_general" indexed="false" stored="true" required="true"/>
+    <field name="Subject" type="text_general" indexed="false" stored="true" required="true"/>
+    <field name="Message-ID" type="string" indexed="false" stored="true" required="true"/>
+    <field name="Date" type="string" indexed="false" stored="true" required="true"/>
+    <field name="text" type="text_general" indexed="false" stored="true"  required="true"/>
+
+    <field name="Lines"  type="int" indexed="false" stored="true" required="false"/>
+    <field name="Organization" type="text_general" indexed="false" stored="true" required="false"/>
+    <field name="Sender"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="References"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Xref"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Article-I.D."  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Expires"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Followup-To"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Keywords"  type="text_general" indexed="false" stored="true" required="false"/>
+    <field name="Distribution"  type="text_general" indexed="false" stored="true" required="false"/>
+    <field name="Approved"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Supersedes"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Originator"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Content-Type"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="X-Newsreader"  type="string" indexed="false" stored="true" required="false"/>
+    <field name="Summary"  type="text_general" indexed="false" stored="true" required="false"/>
+
+    <dynamicField name="*Reply-To"  type="string" indexed="false" stored="true" required="false"/>
+    <dynamicField name="*Posting-User" type="string" indexed="false" stored="true" required="false"/>
+    <dynamicField name="*Posting-Host" type="string" indexed="false" stored="true" required="false"/>
+    <dynamicField name="Nntp-Posting-Host-*" type="string" indexed="false" stored="true" required="false"/>
+
+    <field name="everything"  type="text_general" indexed="true" stored="false" multiValued="true"/>
+
+    <uniqueKey>id</uniqueKey>
+
+    <copyField source="Newsgroups" dest="everything"/>
+    <copyField source="Subject" dest="everything"/>
+    <copyField source="Organization" dest="everything"/>
+    <copyField source="Keywords" dest="everything"/>
+    <copyField source="Summary" dest="everything"/>
+    <copyField source="text" dest="everything"/>
+
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+
+    <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+
+    <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
+
+    <fieldtype name="binary" class="solr.BinaryField"/>
+    <fieldType name="random" class="solr.RandomSortField" indexed="true" />
+
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+            <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+        <analyzer type="index">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.EnglishPossessiveFilterFactory"/>
+            <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+            <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.StandardTokenizerFactory"/>
+            <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.EnglishPossessiveFilterFactory"/>
+            <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+           <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <fieldType name="text_en_splitting" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+        <analyzer type="index">
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+            <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+            <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+        <analyzer type="query">
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+            <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+            <filter class="solr.PorterStemFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <fieldType name="text_en_splitting_tight" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+        <analyzer>
+            <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false"/>
+            <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+            <filter class="solr.WordDelimiterFilterFactory" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
+            <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+            <filter class="solr.EnglishMinimalStemFilterFactory"/>
+            <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+        </analyzer>
+    </fieldType>
+
+    <fieldtype name="ignored" stored="false" indexed="false" multiValued="true" class="solr.StrField" />
+
+</schema>
