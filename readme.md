@@ -16,3 +16,11 @@ A program that transforms the 20000 newsgroups corpora available on the web into
 4. Set up a core in Solr with the schema.xml file present in this repository
 5. Post the xml files to that core
 6. Start making searches!
+
+##Important information
+
+The messages saying "XXXX could not be decoded" are normal and expected, some files in the newsgroups collection have codification issues and cannot be read using the python file handling functions. You should end up with 19926 generated xml files
+
+In the schema.xml file implemented there is only one field with indexed=true, that is the field "everything" which receives the commonly most relevant fields of each document through copyField. So make sure to specify the "everything" field when submiting queries to Solr when using the schema.xml file provided in this repository. Also, you may choose to customize this file.
+
+The program takes around 30 minutes to complete (tested in a i5 ssd machine)
