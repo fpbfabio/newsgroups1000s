@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, "../python/")
 
 from utils import Utils
-from message import Message
+from document import Document
 from const import *
 
 
@@ -58,18 +58,6 @@ class UtilsTest:
                 print("-----ERROR-----Utils.is_backup_file----" + key)
 
     @staticmethod
-    def validate_field_name_test():
-        for item in SOLR_SCHEMA_STATIC_FIELD_NAMES:
-            if (not Utils.validate_field_name(item)):
-                print("-----ERROR-----Utils.validate_field_name")
-        for item in SOLR_SCHEMA_STATIC_FIELD_NAMES:
-            if (Utils.validate_field_name(item + BLANK_SPACE)):
-                print("-----ERROR-----Utils.validate_field_name")
-        for item in SOLR_SCHEMA_DYNAMIC_FIELDS:
-            if (not Utils.validate_field_name("XX" + item + "XXXX")):
-                print("-----ERROR-----Utils.validate_field_name")
-
-    @staticmethod
     def is_interger_test():
         test_dictionary = {"1":True, " 1":True, "1 ":True, "a1":False, "1 1":False}
         for key in test_dictionary:
@@ -83,5 +71,4 @@ UtilsTest.extract_file_name_test()
 UtilsTest.extract_file_parent_folder()
 UtilsTest.extract_file_extension_test()
 UtilsTest.is_backup_file_test()
-UtilsTest.validate_field_name_test()
 UtilsTest.is_interger_test()

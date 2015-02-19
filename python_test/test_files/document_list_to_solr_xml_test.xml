@@ -2,7 +2,7 @@
 
 <add>
     <doc>
-        <field name="id"><![CDATA[message_list_to_solr_xml_test]]></field>
+        <field name="id"><![CDATA[document_list_to_solr_xml_test]]></field>
         <field name="year"><![CDATA[2015]]></field>
         <field name="month"><![CDATA[2]]></field>
         <field name="day"><![CDATA[15]]></field>
