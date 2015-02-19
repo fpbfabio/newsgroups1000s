@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<add>
+    <doc>
+        <field name="id"><![CDATA[message_list_to_solr_xml_test]]></field>
+        <field name="year"><![CDATA[2015]]></field>
+        <field name="month"><![CDATA[2]]></field>
+        <field name="day"><![CDATA[15]]></field>
+        <field name="<>&'""><![CDATA[<>&'"]]></field>
+    </doc>
+</add>
