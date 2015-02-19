@@ -80,16 +80,6 @@ class Utils:
         return file_name[last_char_index] == BACKUP_SYMBOL
 
     @staticmethod
-    def validate_field_name(string):
-        has_no_blank_space = not (BLANK_SPACE in string)
-        is_static_field = string in SOLR_SCHEMA_STATIC_FIELD_NAMES
-        is_dynamic_field = False
-        for item in SOLR_SCHEMA_DYNAMIC_FIELDS:
-            if item in string:
-                is_dynamic_field = True
-        return has_no_blank_space and (is_static_field or is_dynamic_field)
-
-    @staticmethod
     def is_integer(s):
         try:
             int(s)
