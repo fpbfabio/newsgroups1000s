@@ -10,9 +10,14 @@ A program that transforms the 20000 newsgroups corpora available on the web into
 
 ##How to use
 
+```
+./program.sh <path-to-newsgroups-root-folder> <path-destination-folder>
+```
+
+###Detailed steps
 1. Download the 20000 newsgroups data set available on the web
 2. Clone this repository to a folder in your computer
-3. Run the bash file program.sh passing two parameters the path to the 20000 newsgroups files root folder and the path to the xml files destination folder
+3. Run the bash file program.sh passing two parameters the path to the 20000 newsgroups files root folder and the path to the xml files destination folder (as in the above example code)
 4. Set up a core in Solr with the schema.xml file present in this repository
 5. Post the xml files to that core
 6. Start making searches!
