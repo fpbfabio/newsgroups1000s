@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-
-
+import os
 from const import *
 
 
@@ -32,12 +30,12 @@ class Utils:
     def extract_file_parent_folder(path):
         name = path
         for i in range(len(path) - 1, -1, -1):
-            if (path[i] == LINUX_PATH_SEPARATOR):
+            if (path[i] == os.path.sep):
                 most_right_slash_index = i
                 break
         second_most_right_slash_index = -1
         for i in range(most_right_slash_index - 1, -1, -1):
-            if (path[i] == LINUX_PATH_SEPARATOR):
+            if (path[i] == os.path.sep):
                 second_most_right_slash_index = i
                 break
         parent_folder_name = path[second_most_right_slash_index + 1:most_right_slash_index]
@@ -47,7 +45,7 @@ class Utils:
     def extract_file_name(path):
         name = path
         for i in range(len(path) - 1, -1, -1):
-            if (path[i] == LINUX_PATH_SEPARATOR):
+            if (path[i] == os.path.sep):
                 most_right_slash_index = i
                 name = path[most_right_slash_index + 1:]
                 break
@@ -61,7 +59,7 @@ class Utils:
         separator_index = None
         file_extension = None
         for i in range(len(path) - 1, -1, -1):
-            if (path[i] == LINUX_PATH_SEPARATOR):
+            if (path[i] == os.path.sep):
                 break
             if (path[i] == FILE_EXTENSION_SEPARATOR):
                 separator_index = i
